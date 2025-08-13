@@ -57,8 +57,9 @@ const props = defineProps(['calcularResultado', 'estado']);
     display: inline-block;
 }
 
-.harmonizar_caixas{
-    width: 640px; 
-    margin: 0  auto;
+.harmonizar_caixas {
+    max-width: 640px;
+    margin: 0 auto;
 }
+
 </style>
