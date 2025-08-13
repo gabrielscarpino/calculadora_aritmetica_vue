@@ -57,10 +57,6 @@ const props = defineProps(['calcularResultado', 'estado']);
     display: inline-block;
 }
 
-select option[value=""][disabled] {
-  color: black; /* Cor do placeholder */
-}
-
 .harmonizar_caixas{
     width: 640px; 
     margin: 0  auto;
