@@ -1,5 +1,8 @@
 <script setup>
-const props = defineProps(['calcularResultado', 'estado']);
+const props = defineProps({
+    calcularResultado: [String, Number], // resultado calculado
+    estado: Object
+})
 </script>
 
 <template>
@@ -14,9 +17,13 @@ const props = defineProps(['calcularResultado', 'estado']);
             </div>
 
 
+
+
             <div class="col-md-12">
                 <select class="form-select text-center box mt-5 mb-5 harmonizar_caixas" :value="props.estado.operacao"
                     @change="evento => props.estado.operacao = evento.target.value">
+
+
                     <option value="" disabled selected hidden>Selecione uma operação</option>
                     <option value="somar">Somar </option>
                     <option value="subtrair">Subtrair</option>
@@ -61,5 +68,4 @@ const props = defineProps(['calcularResultado', 'estado']);
     max-width: 640px;
     margin: 0 auto;
 }
-
 </style>
