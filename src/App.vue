@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed } from 'vue'
+import { reactive, computed, watch } from 'vue'
 import Cabecalho from './components/Cabecalho.vue';
 import Corpo from './components/Corpo.vue';
 
@@ -7,12 +7,11 @@ const estado = reactive({
   num1: '',
   num2: '',
   operacao: '',
-  erro: '',
+  erro: '', // continuará existindo, mas não será manipulado no computed
 })
 
-// Propriedade computada para o resultado
+// Computed apenas calcula o resultado
 const resultado = computed(() => {
-  estado.erro = ''
   const { num1, num2, operacao } = estado
 
   switch (operacao) {
@@ -22,7 +21,7 @@ const resultado = computed(() => {
       return num1 - num2
     case 'dividir':
       if (num2 === 0) {
-        return 'Não é possível dividir por 0'
+        return null // não retorna string, delega erro
       }
       return num1 / num2
     case 'multiplicar':
@@ -32,16 +31,23 @@ const resultado = computed(() => {
   }
 })
 
+// Watcher para tratar erros separadamente
+watch(
+  () => ({ num1: estado.num1, num2: estado.num2, operacao: estado.operacao }),
+  ({ num2, operacao }) => {
+    if (operacao === 'dividir' && num2 === 0) {
+      estado.erro = 'Não é possível dividir por 0'
+    } else {
+      estado.erro = ''
+    }
+  },
+  { deep: true }
+)
 </script>
 
 <template>
   <div class="container">
-
     <Cabecalho />
-    <!-- Passa o resultado já como propriedade reativa -->
-    <Corpo :calcular-resultado="resultado" :estado="estado" />
-
+    <Corpo :calcular-resultado="resultado ?? estado.erro" :estado="estado" />
   </div>
 </template>
-
-<style scoped></style>
